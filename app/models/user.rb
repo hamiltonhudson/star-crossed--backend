@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validates :birth_year, presence: true
   validates :birth_month, presence: true
   validates :birth_day, presence: true
-  after_create :find_matches
+  # after_create :find_matches
   # before_save :find_matches, on: :create
   # after_validation :find_matches, on: :create
   after_create :find_matches, before: :save
