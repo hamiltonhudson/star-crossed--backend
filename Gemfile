@@ -26,7 +26,25 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+
+#Use AMS to specify the shape of our JSON response
+gem 'active_model_serializers', '~> 0.10.0'
+
+gem 'rest-client'
+gem 'json'
+
+gem 'dotenv'
+
+#clean database without affecting schema in order to re-seed
+gem 'database_cleaner', '~> 1.7'
+
+#create fake data for seeds.rb
+gem 'faker', '~> 1.9', '>= 1.9.1'
+gem 'ffaker', '~> 2.10'
+
+gem 'zodiac', '~> 0.2.10'
+gem 'chronic'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
