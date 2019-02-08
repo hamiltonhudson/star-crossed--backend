@@ -44,6 +44,11 @@ class User < ApplicationRecord
     end
   end
 
+  # def update_matches
+  #   self.matches.destroy
+  #   self.find_matches
+  # end
+
   # def find_matches_without_duplication
   #   compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
   #   self.sun.inverse_compatible_suns.map { |ics| compat_sun_ids << ics.id }

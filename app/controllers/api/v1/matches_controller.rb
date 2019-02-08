@@ -29,11 +29,11 @@ class MatchesController < ApplicationController
   #   @user.save
   # end
 
-  # def destroy
-  #   @match = Match.find(params[:id])
-  #   @match.destroy
-  #   render @matches, status: 200
-  # end
+  def destroy
+    @match = Match.find(params[:id])
+    @match.destroy
+    render @matches, status: 200
+  end
 
   private
 

@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:show, :sun_compats, :user_matches, :update]
+  before_action :find_user, only: [:show, :sun_compats, :user_matches, :update, :update_matches]
   # after_action :user_matches, only: [:create, :update]
 
   def index
@@ -37,17 +37,26 @@ class Api::V1::UsersController < ApplicationController
     render json: [@name, @sun_compats], status: 200
   end
 
-  # def user_matches
-  #   @name = @user.full_name
-  #   @user_matches = @user.find_matches
-  #   render json: [@name, @user_matches]
-  # render json: @user.errors, status: :unprocessable_entity
-  # end
+  def current_matches
+    @name = @user.full_name
+    @user_matches = @user.find_matches
+    render json: [@name, @user_matches]
+  render json: @user.errors, status: :unprocessable_entity
+  end
+
+  def updated_matches
+    @user.matches.each do |match|
+      match.destroy
+    end
+    @user.find_matches
+    render json: @user.matches, status: 200
+  end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      @user.save
+      # @user.update_matches
+      # @user.save
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
