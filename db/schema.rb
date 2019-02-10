@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_08_024549) do
+ActiveRecord::Schema.define(version: 2019_02_10_053757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,11 +25,22 @@ ActiveRecord::Schema.define(version: 2019_02_08_024549) do
     t.index ["sun_id"], name: "index_compatibilities_on_sun_id"
   end
 
+  create_table "declineds", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "declined_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["declined_user_id"], name: "index_declineds_on_declined_user_id"
+    t.index ["user_id", "declined_user_id"], name: "index_declineds_on_user_id_and_declined_user_id", unique: true
+    t.index ["user_id"], name: "index_declineds_on_user_id"
+  end
+
   create_table "matches", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "matched_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "matched"
     t.index ["matched_user_id"], name: "index_matches_on_matched_user_id"
     t.index ["user_id", "matched_user_id"], name: "index_matches_on_user_id_and_matched_user_id", unique: true
     t.index ["user_id"], name: "index_matches_on_user_id"
@@ -42,6 +53,10 @@ ActiveRecord::Schema.define(version: 2019_02_08_024549) do
     t.string "compat_signs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "keywords"
+    t.string "symbol"
+    t.string "element"
+    t.string "vibe"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,11 +68,15 @@ ActiveRecord::Schema.define(version: 2019_02_08_024549) do
     t.bigint "sun_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "gender"
+    t.string "gender_pref"
     t.index ["sun_id"], name: "index_users_on_sun_id"
   end
 
   add_foreign_key "compatibilities", "suns"
   add_foreign_key "compatibilities", "suns", column: "compatible_sun_id"
+  add_foreign_key "declineds", "users"
+  add_foreign_key "declineds", "users", column: "declined_user_id"
   add_foreign_key "matches", "users"
   add_foreign_key "matches", "users", column: "matched_user_id"
   add_foreign_key "users", "suns"

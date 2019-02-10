@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :birth_year, :birth_month, :birth_day, :sun, :matches, :matched_users, :user_matches, :users_matched
+  attributes :id, :first_name, :last_name, :birth_year, :birth_month, :birth_day, :gender, :gender_pref, :sun, :matches, :matched_users, :user_matches, :users_matched
   belongs_to :sun
   # belongs_to :sun, serializer: SunSerializer
   has_many :matches

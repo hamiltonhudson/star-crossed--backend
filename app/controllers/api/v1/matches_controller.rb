@@ -1,7 +1,9 @@
-class MatchesController < ApplicationController
+class Api::V1::MatchesController < ApplicationController
+  # before_action: find_match, only: [:show, :update, :declined, :destroy]
+
 
   def index
-    @matched = Match.all
+    @matches = Match.all
     render json: @matches, status: 200
   end
 
@@ -12,7 +14,6 @@ class MatchesController < ApplicationController
 
 
   def create
-    # @match = Match.create(params[:id])
     @match = Match.create(match_params)
     if @match.valid?
       render json: @match, status: 200
@@ -21,13 +22,23 @@ class MatchesController < ApplicationController
     end
   end
 
-  # def remove(declined_by)
-  #   @match = Match.find(params[:id])
-  #   # user = @match.user_id == declined_by.id || @match.matched_user_id == declined_by.id
-  #   user.declined_matches.push(@match)
-  #   @match.delete
-  #   @user.save
-  # end
+  def update
+    find_match
+    if @match.update(match_params)
+      render json: @match, status: 200
+    else
+      render json: @match.errors, status: :unprocessable_entity
+    end
+  end
+
+  def declined
+    @match = Match.find(params[:id])
+    @user = User.all.find { |user| user.id === @match.user_id}
+    # @match.decline_match
+    render json: @user.matches, status: 200
+  end
+
+
 
   def destroy
     @match = Match.find(params[:id])
@@ -37,8 +48,12 @@ class MatchesController < ApplicationController
 
   private
 
-  # def match_params
-  #   params.require(:match).permit(:user_id, :matched_user_id)
-  # end
+  def match_params
+    params.require(:match).permit(:user_id, :matched_user_id)
+  end
+
+  def find_match
+    @match = Match.find(params[:id])
+  end
 
 end

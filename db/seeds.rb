@@ -14,8 +14,16 @@ suns_array = JSON.parse(all_suns)
 
 suns_array.each do |hash|
   Sun.create!(sign: hash["name"], start_date: hash["sun_dates"].first,
-  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item })
+  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item }.join(", "), keywords: hash["keywords"].join(", "), symbol: hash["symbol"], element: hash["element"],vibe: hash["vibe"])
 end
+
+# zodiacs_array.each do |hash|
+#   Zodiac.create(sign: hash["name"], start_date: hash["sun_dates"].first,
+#   end_date: hash["sun_dates"].last, keywords: hash["keywords"].join(", "),
+#   symbol: hash["symbol"], element: hash["element"], quality: hash["cardinality"],
+#   vibe: hash["vibe"], mental_traits: hash["mental_traits"].join(", "),
+#   physical_traits: hash["physical_traits"].join(", "))
+# end
 
 # Sun.all.map { |sun|
 #   sun.compatibilities.push(sun)
@@ -31,12 +39,15 @@ end
 #   sun.compat_signs.split(',').map{|item| item.strip}.join(', ').split(',')
 # end
 
-User.create!(first_name: "Hamilton", last_name: "Hudson", birth_year: 1989, birth_month: 8, birth_day: 2)
-User.create!(first_name: "Eva", last_name: "Hudson", birth_year: 1992, birth_month: 5, birth_day: 1)
-User.create!(first_name: "Downing", last_name: "Hudson", birth_year: 1957, birth_month: 8, birth_day: 31)
-User.create!(first_name: "Biff", last_name: "Hudson", birth_year: 1953, birth_month: 6, birth_day: 2)
-User.create!(first_name: "Athena", last_name: "Hudson", birth_year: 2012, birth_month: 6, birth_day: 13)
-User.create!(first_name: "Jon", last_name: "Van Gelder", birth_year: 1991, birth_month: 11, birth_day: 7)
+User.create!(first_name: "Holly", last_name: "Holmes", birth_year: 1989, birth_month: 8, birth_day: 2, gender: "F", gender_pref: "M")
+# User.create!(first_name: "Eliza", last_name: "Harris", birth_year: 1992, birth_month: 5, birth_day: 1, gender: "F", gender_pref: "F")
+# User.create!(first_name: "Dana", last_name: "Heimlin", birth_year: 1957, birth_month: 8, birth_day: 31, gender: "F", gender_pref: "F")
+User.create!(first_name: "Beau", last_name: "Holland", birth_year: 1953, birth_month: 6, birth_day: 2, gender: "M", gender_pref: "F")
+User.create!(first_name: "Joel", last_name: "Gaines", birth_year: 1989, birth_month: 6, birth_day: 13, gender: "M", gender_pref: "M")
+# User.create!(first_name: "Jim", last_name: "Vidal", birth_year: 1991, birth_month: 11, birth_day: 7, gender: "M", gender_pref: "M")
+# User.create!(first_name: "John", last_name: "Samuels", birth_year: 1983, birth_month: 1, birth_day: 15, gender: "M", gender_pref: "M")
+
+User.all.each { |user| user.find_matches }
 
 # 10.times {
 #   User.create!(first_name: FFaker::Name.first_name, last_name: FFaker::Name.last_name, birth_year: FFaker::Random.rand(1977..1997), birth_month: FFaker::Random.rand(0..12), birth_day: FFaker::Random.rand(1..28))
