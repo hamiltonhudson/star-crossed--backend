@@ -1,6 +1,5 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
-  resources :declineds
   namespace :api do
     namespace :v1 do
       resources :suns, only: [:index, :show]
@@ -10,8 +9,8 @@ Rails.application.routes.draw do
       get 'users/:id/current_matches', to: 'users#current_matches'
       get 'users/:id/updated_matches', to: 'users#updated_matches'
       resources :matches
-      patch 'matches/:id/declined', to: 'matches#declined'
-      # resources :declineds
+      patch 'matches/:id/accept', to: 'matches#accept'
+      patch 'matches/:id/decline', to: 'matches#decline'
     end
   end
 end

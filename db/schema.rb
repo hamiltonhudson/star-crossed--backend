@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_053757) do
+ActiveRecord::Schema.define(version: 2019_02_10_181116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,16 +23,6 @@ ActiveRecord::Schema.define(version: 2019_02_10_053757) do
     t.index ["compatible_sun_id"], name: "index_compatibilities_on_compatible_sun_id"
     t.index ["sun_id", "compatible_sun_id"], name: "index_compatibilities_on_sun_id_and_compatible_sun_id", unique: true
     t.index ["sun_id"], name: "index_compatibilities_on_sun_id"
-  end
-
-  create_table "declineds", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "declined_user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["declined_user_id"], name: "index_declineds_on_declined_user_id"
-    t.index ["user_id", "declined_user_id"], name: "index_declineds_on_user_id_and_declined_user_id", unique: true
-    t.index ["user_id"], name: "index_declineds_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -70,13 +60,15 @@ ActiveRecord::Schema.define(version: 2019_02_10_053757) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.string "gender_pref"
+    t.integer "age"
+    t.string "location"
+    t.text "bio"
+    t.string "photo"
     t.index ["sun_id"], name: "index_users_on_sun_id"
   end
 
   add_foreign_key "compatibilities", "suns"
   add_foreign_key "compatibilities", "suns", column: "compatible_sun_id"
-  add_foreign_key "declineds", "users"
-  add_foreign_key "declineds", "users", column: "declined_user_id"
   add_foreign_key "matches", "users"
   add_foreign_key "matches", "users", column: "matched_user_id"
   add_foreign_key "users", "suns"

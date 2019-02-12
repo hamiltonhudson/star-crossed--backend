@@ -11,7 +11,6 @@ class Api::V1::CompatibilitiesController < ApplicationController
   end
 
   def create
-    # @compatiblity = Compatibility.create(params[:id])
     @compatibility = Compatibility.create(compatibility_params)
     if @compatibility.valid?
       render json: @compatiblity, status: 200

@@ -57,20 +57,20 @@ class Sun < ApplicationRecord
     end
   end
 
-  # def self.add_mottos
-  #   self.first.motto = "I am."
-  #   self.second.motto = "I have."
-  #   self.third.motto = "I think."
-  #   self.fourth.motto = "I feel."
-  #   self.fifth.motto = "I will."
-  #   self.find(6).motto = "I analyze."
-  #   self.find(7).motto = "I balance."
-  #   self.find(8).motto = "I create."
-  #   self.find(9).motto = "I perceive."
-  #   self.find(10).motto = "I use."
-  #   self.find(11).motto = "I know."
-  #   self.find(12).motto = "I believe."
-  #   self.save
-  # end
+  def self.add_mottos
+    self.first.motto = "I am."
+    self.second.motto = "I have."
+    self.third.motto = "I think."
+    self.fourth.motto = "I feel."
+    self.fifth.motto = "I will."
+    self.find(6).motto = "I analyze."
+    self.find(7).motto = "I balance."
+    self.find(8).motto = "I create."
+    self.find(9).motto = "I perceive."
+    self.find(10).motto = "I use."
+    self.find(11).motto = "I know."
+    self.find(12).motto = "I believe."
+    self.save
+  end
 
 end

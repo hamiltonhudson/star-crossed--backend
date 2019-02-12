@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:show, :sun_compats, :user_matches, :update, :update_matches]
+  before_action :find_user, only: [:show, :update]
+  # before_action :find_user, only: [:show, :sun_compats, :user_matches, :update, :update_matches]
   # after_action :user_matches, only: [:create, :update]
 
   def index
@@ -7,13 +8,16 @@ class Api::V1::UsersController < ApplicationController
     render json: @users, status: 200
   end
 
+
   def show
     render json: @user, status: 200
   end
 
+
   def new
     @user = User.new
   end
+
 
   def create
     @user = User.new(user_params)
@@ -26,42 +30,46 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def user_matches
-    @user.find_matches
-    render json: @user, status: 200
-  end
-
-  def sun_compats
-    @name = @user.full_name
-    @sun_compats = @user.sun.compatibilities
-    render json: [@name, @sun_compats], status: 200
-  end
-
-  def current_matches
-    @name = @user.full_name
-    @user_matches = @user.find_matches
-    render json: [@name, @user_matches]
-  render json: @user.errors, status: :unprocessable_entity
-  end
-
-  def updated_matches
-    @user.matches.each do |match|
-      match.destroy
-    end
-    @user.find_matches
-    render json: @user.matches, status: 200
-  end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
       # @user.update_matches
-      # @user.save
+      byebug
+      @user.save
+      byebug
       render json: @user
+      byebug
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
+
+  # def user_matches
+  #   @user.find_matches
+  #   render json: @user, status: 200
+  # end
+  #
+  # def sun_compats
+  #   @name = @user.full_name
+  #   @sun_compats = @user.sun.compatibilities
+  #   render json: [@name, @sun_compats], status: 200
+  # end
+
+  # def current_matches
+  #   @name = @user.full_name
+  #   @user_matches = @user.find_matches
+  #   render json: [@name, @user_matches]
+  # render json: @user.errors, status: :unprocessable_entity
+  # end
+
+  # def updated_matches
+  #   @user.matches.each do |match|
+  #     match.destroy
+  #   end
+  #   @user.find_matches
+  #   render json: @user.matches, status: 200
+  # end
 
   # def remove_match(declined_match)
   #   @user = User.find(params[:id])
@@ -81,7 +89,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-     params.require(:user).permit(:first_name, :last_name, :birth_year, :birth_month, :birth_day, :zodiac_id)
+     params.require(:user).permit(:first_name, :last_name, :birth_year, :birth_month, :birth_day, :gender, :gender_pref, :age, :location, :bio, :photo, :zodiac_id)
    end
 
    def find_user

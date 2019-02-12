@@ -44,7 +44,8 @@ gem 'faker', '~> 1.9', '>= 1.9.1'
 gem 'ffaker', '~> 2.10'
 
 gem 'zodiac', '~> 0.2.10'
-gem 'chronic'
+gem 'chronic', '~> 0.10.2'
+gem 'age_calculator', '~> 1.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

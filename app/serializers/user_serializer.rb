@@ -1,9 +1,11 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :birth_year, :birth_month, :birth_day, :gender, :gender_pref, :sun, :matches, :matched_users, :user_matches, :users_matched
+  attributes :id, :first_name, :last_name, :birth_year, :birth_month, :birth_day, :gender, :gender_pref, :age, :location, :bio, :photo, :sun, :matches
   belongs_to :sun
-  # belongs_to :sun, serializer: SunSerializer
-  has_many :matches
-  # has_many :matches, serializer: MatchSerializer
-  has_many :matched_users, through: :matches
-	# has_many :user_matches, class_name "Match", foreign_key: "matched_user_id" 	has_many :users_matched, through: :user_matches, source :user
+
+  def matches
+    object.matches.map do |match|
+      ActiveModelSerializers::SerializableResource.new(match, serializer: MatchSerializer)
+    end
+  end
+
 end

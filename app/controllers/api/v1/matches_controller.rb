@@ -1,11 +1,11 @@
 class Api::V1::MatchesController < ApplicationController
   # before_action: find_match, only: [:show, :update, :declined, :destroy]
 
-
   def index
     @matches = Match.all
     render json: @matches, status: 200
   end
+
 
   def show
     @match = Match.find(params[:id])
@@ -22,6 +22,7 @@ class Api::V1::MatchesController < ApplicationController
     end
   end
 
+
   def update
     find_match
     if @match.update(match_params)
@@ -31,13 +32,21 @@ class Api::V1::MatchesController < ApplicationController
     end
   end
 
-  def declined
+
+  def accept
     @match = Match.find(params[:id])
-    @user = User.all.find { |user| user.id === @match.user_id}
-    # @match.decline_match
-    render json: @user.matches, status: 200
+    @match.accept_match
+    @users = User.all
+    render json: @users, status: 200
   end
 
+
+  def decline
+    @match = Match.find(params[:id])
+    @match.decline_match
+    @users = User.all
+    render json: @users, status: 200
+  end
 
 
   def destroy
@@ -46,14 +55,17 @@ class Api::V1::MatchesController < ApplicationController
     render @matches, status: 200
   end
 
+
   private
 
   def match_params
     params.require(:match).permit(:user_id, :matched_user_id)
   end
 
+
   def find_match
     @match = Match.find(params[:id])
   end
+
 
 end
