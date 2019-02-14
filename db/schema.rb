@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_181116) do
+ActiveRecord::Schema.define(version: 2019_02_14_103155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "chats", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "compatibilities", force: :cascade do |t|
     t.bigint "sun_id"
@@ -23,6 +29,15 @@ ActiveRecord::Schema.define(version: 2019_02_10_181116) do
     t.index ["compatible_sun_id"], name: "index_compatibilities_on_compatible_sun_id"
     t.index ["sun_id", "compatible_sun_id"], name: "index_compatibilities_on_sun_id_and_compatible_sun_id", unique: true
     t.index ["sun_id"], name: "index_compatibilities_on_sun_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.string "message"
+    t.bigint "chat_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_conversations_on_chat_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -36,6 +51,13 @@ ActiveRecord::Schema.define(version: 2019_02_10_181116) do
     t.index ["user_id"], name: "index_matches_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "chat_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "suns", force: :cascade do |t|
     t.string "sign"
     t.string "start_date"
@@ -47,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_02_10_181116) do
     t.string "symbol"
     t.string "element"
     t.string "vibe"
+    t.string "motto"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,6 +87,8 @@ ActiveRecord::Schema.define(version: 2019_02_10_181116) do
     t.string "location"
     t.text "bio"
     t.string "photo"
+    t.string "email"
+    t.string "password"
     t.index ["sun_id"], name: "index_users_on_sun_id"
   end
 

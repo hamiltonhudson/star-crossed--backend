@@ -6,6 +6,7 @@ class Sun < ApplicationRecord
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun, as: :compatible_suns
   after_create :update_pisces, before: :save
   after_create :update_vibes, before: :save
+  after_create :add_mottos, before: :save
 
   def find_mutual_compats(sun, arr)
     arr.select do |el|
@@ -57,20 +58,44 @@ class Sun < ApplicationRecord
     end
   end
 
-  def self.add_mottos
-    self.first.motto = "I am."
-    self.second.motto = "I have."
-    self.third.motto = "I think."
-    self.fourth.motto = "I feel."
-    self.fifth.motto = "I will."
-    self.find(6).motto = "I analyze."
-    self.find(7).motto = "I balance."
-    self.find(8).motto = "I create."
-    self.find(9).motto = "I perceive."
-    self.find(10).motto = "I use."
-    self.find(11).motto = "I know."
-    self.find(12).motto = "I believe."
-    self.save
+  def add_mottos
+    if self.id == 1
+      self.motto = "I am."
+      self.save
+    elsif self.id == 2
+      self.motto = "I have."
+      self.save
+    elsif self.id == 3
+      self.motto = "I think."
+      self.save
+    elsif self.id == 4
+      self.motto = "I feel."
+      self.save
+    elsif self.id == 5
+      self.motto = "I will."
+      self.save
+    elsif self.id == 6
+      self.motto = "I analyze."
+      self.save
+    elsif self.id == 7
+      self.motto = "I balance."
+      self.save
+    elsif self.id == 8
+      self.motto = "I create."
+      self.save
+    elsif self.id == 9
+      self.motto = "I perceive."
+      self.save
+    elsif self.id == 10
+      self.motto = "I use."
+      self.save
+    elsif self.id == 11
+      self.motto = "I know."
+      self.save
+    elsif self.id == 12
+      self.motto = "I believe."
+      self.save
+    end
   end
 
 end

@@ -34,15 +34,20 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      # @user.update_matches
-      byebug
+      @user.update_matches
       @user.save
-      byebug
+      @user.update_matches
       render json: @user
-      byebug
     else
       render json: @user.errors, status: :unprocessable_entity
     end
+  end
+
+  def updated_matches
+    @user = User.find(params[:id])
+    @user.update_matches
+    @user_matches = @user.update_matches
+    render json: @user_matches, status: 200
   end
 
   # def user_matches
@@ -71,29 +76,23 @@ class Api::V1::UsersController < ApplicationController
   #   render json: @user.matches, status: 200
   # end
 
-  # def remove_match(declined_match)
-  #   @user = User.find(params[:id])
-  #   match = @user.matches.find(match.id == declined_match.id)
-  #   @user.declined_matches.push(match)
-  #   @user.matches.delete(match)
-  #   @user.save
-  #   render json: {user: user, matches: user.matches, status: "decline successful, matches updated"}
-  # end
-
   def destroy
     @user = User.find(params[:id])
     @user.destroy
     render json: @users, status: 200
   end
 
+
   private
 
   def user_params
-     params.require(:user).permit(:first_name, :last_name, :birth_year, :birth_month, :birth_day, :gender, :gender_pref, :age, :location, :bio, :photo, :zodiac_id)
-   end
+   params.require(:user).permit(:first_name, :last_name, :birth_day, :birth_month, :birth_year, :gender, :gender_pref, :age, :location, :bio, :photo)
+    # params.require(:user).permit(:user_id, :first_name, :last_name, :birth_day, :birth_month, :birth_year, :gender, :gender_pref, :age, :location, :bio, :photo)
+  end
 
-   def find_user
-     @user = User.find(params[:id])
-   end
+
+  def find_user
+   @user = User.find(params[:id])
+  end
 
 end
