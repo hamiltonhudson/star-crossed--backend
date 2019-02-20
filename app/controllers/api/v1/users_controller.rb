@@ -14,16 +14,17 @@ class Api::V1::UsersController < ApplicationController
   end
 
 
-  def new
-    @user = User.new
-  end
+  # def new
+  #   @user = User.new
+  # end
 
 
   def create
     @user = User.new(user_params)
     if @user.valid?
-      @user.save
+      # @user.save
       @user.find_matches
+      @user.save
       render json: @user, status: 200
     else
       render json: @user.errors.full_messages
@@ -34,16 +35,18 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      @user.update_matches
+      # @user.update_matches
+      @user.match_update
       @user.save
-      @user.update_matches
+      # @user.update_matches
+      @user.match_update
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
-  def updated_matches
+  def match_update
     @user = User.find(params[:id])
     @user.update_matches
     @user_matches = @user.update_matches

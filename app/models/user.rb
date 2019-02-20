@@ -5,42 +5,33 @@ class User < ApplicationRecord
   # has_many :subscriptions
   # has_many :chats, through: :subscriptions
   # has_many :conversations
-  before_validation :get_sun_sign
-  before_validation :capitalize_name
-  before_validation :get_age
-  # validates :email, presence: true, :on => :create
-  # validates :password, presence: true, length: { minimum: 6, maximum: 12}, :on => :create
-  # validates :password, confirmation: true, length: { minimum: 6, maximum: 12}, allow_blank => true, :on => :update
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :birth_year, presence: true
   validates :birth_month, presence: true
   validates :birth_day, presence: true
-  # validates :gender, presence: true
-  # validates :gender_pref, presence: true
+  validates :gender, presence: true
+  validates :gender_pref, presence: true
   # validates :location, presence: true
   # validates :bio, presence: true
   # validates :photo, presence: true
+  before_validation :get_sun_sign
+  before_validation :capitalization
+  before_validation :get_age
+  # validates :email, presence: true, :on => :create
+  # validates :password, presence: true, length: { minimum: 6, maximum: 12}, :on => :create
+  # validates :password, confirmation: true, length: { minimum: 6, maximum: 12}, allow_blank => true, :on => :update
   after_create :find_matches, before: :save
-  after_create :find_matches, before: :save
+  after_update :find_matches, before: :save
   after_update :get_sun_sign, before: :save
-  # after_update :capitalize_name, before: :save
+  # after_update :capitalization, before: :save
   # after_update :get_age, before: :save
   # after_validation :find_matches, before: :save
-  # after_validation :dob, before: :save
-  # after_validation :get_sun_sign, before: :save
-  # after_validation :capitalize_name, before: :save
-  # after_validation :get_age, before: :save
 
 
 
   def full_name
-    "#{self.first_name} #{self.last_name}"
-  end
-
-
-  def capitalize_name
-    return [self.first_name, self.last_name].map(&:capitalize)
+    "#{self.first_name} #{self.last_name}".scan(/\w+/).each { |x| x.capitalize! }.join(' ')
   end
 
 
@@ -65,6 +56,7 @@ class User < ApplicationRecord
       end
     end
   end
+
 
   def update_matches
     compat_sun_ids = self.sun.compatible_suns.map { |compat_sun| compat_sun.id }
@@ -137,6 +129,24 @@ class User < ApplicationRecord
     age_calc = AgeCalculator.new(self.dob)
     self.age = age_calc.age
   end
+
+
+  def capitalization
+    self.first_name = self.first_name.capitalize
+    self.last_name = self.last_name.capitalize
+    self.gender = self.gender.capitalize
+    if self.gender_pref.split.length == 1
+      self.gender_pref = self.gender_pref.capitalize
+    elsif self.gender_pref.split.length > 1
+      gp = self.gender_pref.split(",").map{ |pref| pref.strip.capitalize }.join(", ")
+      self.gender_pref = gp
+    end
+    location = self.location.split(" ").map {|word| word.capitalize}
+    location[-1].upcase!
+    self.location = location.join(" ")
+    self.bio = self.bio.split(". ").map{ |word| word.capitalize }.join(". ")
+  end
+
 
 
 end

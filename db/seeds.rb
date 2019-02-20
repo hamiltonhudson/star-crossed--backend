@@ -18,6 +18,16 @@ suns_array.each do |hash|
 end
 
 
+def create_compatibilities(sun_sign)
+  Sun.all.map do |sun|
+    if sun.compat_signs.include?(sun_sign.sign)
+      Compatibility.find_or_create_by(sun_id: sun.id, compatible_sun_id: sun_sign.id)
+    end
+  end
+end
+
+sun_sign_array = Sun.all
+sun_sign_array.each { |sun_sign| create_compatibilities(sun_sign) }
 
 User.create!(email: 'eliza@e.com', password: '123456', first_name: "Eliza", last_name: "Harris", birth_year: 1982, birth_month: 6, birth_day: 3, gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1549832413/pexels-woman1.jpg')
 User.create!(email: 'eliza@e.com', password: '123456', first_name: "Jill", last_name: "Harris", birth_year: 1992, birth_month: 2, birth_day: 13, gender: "F", gender_pref: "M, F", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550181999/pexels-woman2.jpg')
@@ -42,7 +52,7 @@ User.create!(email: 'wes@w.com', password: '123456', first_name: 'Louis', last_n
 User.create!(email: 'wes@w.com', password: '123456', first_name: 'Mike', last_name: 'Jamal', birth_year: 1984, birth_month: 8, birth_day: 16, gender: 'M', gender_pref: 'F', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182117/pexels-man8.jpg')
 User.create!(email: 'wes@w.com', password: '123456', first_name: 'Adam', last_name: 'Jamal', birth_year: 1984, birth_month: 5, birth_day: 29, gender: 'M', gender_pref: 'M, F', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550181964/pexels-man9.jpg')
 User.create!(email: 'wes@w.com', password: '123456', first_name: 'Nick', last_name: 'Jamal', birth_year: 1984, birth_month: 4, birth_day: 9, gender: 'M', gender_pref: 'M, F', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182150/pexels-man12.jpg')
-User.create!(email: 'wes@w.com', password: '123456', first_name: 'Alex', last_name: 'Jamal', birth_year: 1984, birth_month: 7, birth_day: 12, gender: 'M', gender_pref: 'F', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182156/pexels-man13.jpg')
+User.create!(email: 'wes@w.com', password: '123456', first_name: 'alex', last_name: 'jamal', birth_year: 1984, birth_month: 7, birth_day: 12, gender: 'm', gender_pref: 'f', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182156/pexels-man13.jpg')
 
 User.all.each { |user| user.find_matches }
 
@@ -70,14 +80,16 @@ User.all.each { |user| user.find_matches }
 
 # User.all.each { |user| user.find_matches }
 
+# User.get_matches
 
-def create_compatibilities(sun_sign)
-  Sun.all.map do |sun|
-    if sun.compat_signs.include?(sun_sign.sign)
-      Compatibility.find_or_create_by(sun_id: sun.id, compatible_sun_id: sun_sign.id)
-    end
-  end
-end
-
-sun_sign_array = Sun.all
-sun_sign_array.each { |sun_sign| create_compatibilities(sun_sign) }
+#
+# def create_compatibilities(sun_sign)
+#   Sun.all.map do |sun|
+#     if sun.compat_signs.include?(sun_sign.sign)
+#       Compatibility.find_or_create_by(sun_id: sun.id, compatible_sun_id: sun_sign.id)
+#     end
+#   end
+# end
+#
+# sun_sign_array = Sun.all
+# sun_sign_array.each { |sun_sign| create_compatibilities(sun_sign) }
