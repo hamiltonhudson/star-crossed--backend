@@ -135,16 +135,15 @@ class User < ApplicationRecord
     self.first_name = self.first_name.capitalize
     self.last_name = self.last_name.capitalize
     self.gender = self.gender.capitalize
-    if self.gender_pref.split.length == 1
-      self.gender_pref = self.gender_pref.capitalize
-    elsif self.gender_pref.split.length > 1
-      gp = self.gender_pref.split(",").map{ |pref| pref.strip.capitalize }.join(", ")
-      self.gender_pref = gp
-    end
+    self.gender_pref = self.gender_pref.upcase
     location = self.location.split(" ").map {|word| word.capitalize}
-    location[-1].upcase!
-    self.location = location.join(" ")
-    self.bio = self.bio.split(". ").map{ |word| word.capitalize }.join(". ")
+    if location.include?(",")
+      location[-1].upcase!
+      self.location = location.join(" ")
+    else self.location = location.join(" ")
+    # self.location = self.location.upcase
+    self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
+    end
   end
 
 
