@@ -13,11 +13,25 @@ class Match < ApplicationRecord
   end
 
   def accept_match
-    self.inverses.find do |inverse|
-      inverse.update_attribute(:status, "accepted")
-    self.update_attribute(:status, "accepted")
+    if self.status == "matched"
+      self.inverses.find do |inverse|
+        inverse.update_attribute(:status, "awaiting")
+        self.update_attribute(:status, "pending")
+      end
+    elsif self.status == "awaiting"
+      self.inverses.find do |inverse|
+        inverse.update_attribute(:status, "accepted")
+        self.update_attribute(:status, "accepted")
+      end
     end
   end
+
+  # def accept_match
+  #   self.inverses.find do |inverse|
+  #     inverse.update_attribute(:status, "accepted")
+  #   self.update_attribute(:status, "accepted")
+  #   end
+  # end
 
   def decline_match
     self.inverses.find do |inverse|

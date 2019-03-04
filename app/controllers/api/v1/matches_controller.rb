@@ -36,8 +36,11 @@ class Api::V1::MatchesController < ApplicationController
   def accept
     @match = Match.find(params[:id])
     @match.accept_match
+    @user = @match.user
     @users = User.all
-    render json: @users, status: 200
+    # render json: [@match, @matched_user], status: 200
+    render json: @user, status: 200
+
   end
 
 

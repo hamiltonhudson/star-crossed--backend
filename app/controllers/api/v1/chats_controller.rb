@@ -28,7 +28,7 @@ byebug
         "current_user_#{current_user.id}",
         @serialized_data
       )
-      byebug
+      # byebug
         ActionCable.server.broadcast(
           "current_user_#{params["receiver_id"]}",
           @serialized_data

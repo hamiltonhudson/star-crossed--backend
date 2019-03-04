@@ -78,26 +78,9 @@ class User < ApplicationRecord
   end
 
 
-  # def check_gender
-  #   User.all.find_all do |user|
-  #     if self.gender_pref != user.gender && user.gender_pref != self.gender
-  #       Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
-  #     end
-  #   end
-  # end
-
-
-  # def update_matches
-  #   self.matches.destroy
-  #   self.find_matches
-  # end
-
-
-  def finds_match(user)
-    Match.find_by_user_id(params[:user_id] != user.id)
-    Match.find_by_user_id_and_matched_user_id(params[:matched_user_id])
-    if user_id == self.id || matched_user_id == self.id
-    end
+  def find_accepteds
+    self.matches.select{ |match| match.status == "accepted"}
+    # self.matches.find_all{ |match| match.status == "accepted"}
   end
 
   # def find_matches_without_duplication

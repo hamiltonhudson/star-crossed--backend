@@ -64,12 +64,13 @@ class Api::V1::UsersController < ApplicationController
   #   render json: [@name, @sun_compats], status: 200
   # end
 
-  # def current_matches
-  #   @name = @user.full_name
-  #   @user_matches = @user.find_matches
-  #   render json: [@name, @user_matches]
+  def current_matches
+    @user = User.find(params[:id])
+    @name = @user.full_name
+    @user_matches = @user.find_accepteds
+    render json: [@name, @user_matches]
   # render json: @user.errors, status: :unprocessable_entity
-  # end
+  end
 
   # def updated_matches
   #   @user.matches.each do |match|
