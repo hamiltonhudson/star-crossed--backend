@@ -2,7 +2,6 @@ class Api::V1::SunsController < ApplicationController
 
   def index
     @suns = Sun.all
-    # @compatible_suns = Sun.compatible_suns
     render json: @suns, status: 200
   end
 
@@ -13,14 +12,21 @@ class Api::V1::SunsController < ApplicationController
     render json: @sun, status: 200
   end
 
+  def create
+    @sun = Sun.new(sun_params)
+    # if @sun.valid?
+    # @compatible_suns = [@sun.compatible_suns, @sun.inverse_compatible_suns]
+    # @compatible_suns = @sun.compatible_suns && @sun.inverse_compatible_suns
+    # @compatible_suns = @sun.compatible_suns + @sun.inverse_compatible_suns
+    #   @sun.save
+    if @sun.save
+    # render json: @sun, status: 200
+  end
 
-  ## custom routes for custom methods
-  ## user logs in and there's an action to establisth their compatibilities
+  private
 
-  # private
-  #
-  #  def sun_params
-  #    params.require(:sun).permit(:sign, :start_date, :end_date, :compat_signs)
-  #  end
+   def sun_params
+     params.require(:sun).permit(:sign, :start_date, :end_date, :compat_signs)
+   end
 
 end

@@ -1,2 +1,2 @@
-# class Api::V1::SubscriptionsController < ApplicationController
-# end
+class Api::V1::SubscriptionsController < ApplicationController
+end

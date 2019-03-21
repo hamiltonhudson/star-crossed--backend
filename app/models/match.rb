@@ -1,6 +1,7 @@
 class Match < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, :dependent => :destroy
   belongs_to :matched_user, class_name: "User"
+  # belongs_to :matched_user, class_name: "User", :dependent => :destroy
   validates_uniqueness_of :matched_user, scope: :user
   # validate :no_duplicate_compatibility
 
@@ -26,12 +27,6 @@ class Match < ApplicationRecord
     end
   end
 
-  # def accept_match
-  #   self.inverses.find do |inverse|
-  #     inverse.update_attribute(:status, "accepted")
-  #   self.update_attribute(:status, "accepted")
-  #   end
-  # end
 
   def decline_match
     self.inverses.find do |inverse|

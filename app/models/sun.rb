@@ -5,6 +5,7 @@ class Sun < ApplicationRecord
   has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun, as: :compatible_suns
   after_create :update_pisces, before: :save
+  after_create :add_self_compatibility
   after_create :update_vibes, before: :save
   after_create :add_mottos, before: :save
 
@@ -22,6 +23,13 @@ class Sun < ApplicationRecord
       self.compat_signs = ["Taurus", "Cancer", "Scorpio", "Capricorn"]
       self.save
     end
+  end
+
+  def add_self_compatibility
+    @updated_compats = self.compat_signs
+    @updated_compats = @updated_compats.split(", ").push(self.sign).join(", ")
+    self.compat_signs = @updated_compats
+    self.save
   end
 
   def update_vibes

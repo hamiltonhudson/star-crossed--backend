@@ -19,7 +19,7 @@ class Api::V1::ChatsController < ApplicationController
         @ownership2.chat_id = @chat.id
         @ownership2.user_id = params["receiver_id"]
         @ownership2.save
-byebug
+# byebug
         @serialized_data = ActiveModelSerializers::Adapter::Json.new(
           ChatSerializer.new(@chat)
         ).serializable_hash

@@ -19,7 +19,8 @@ class MatchSerializer < ActiveModel::Serializer
       location: user.location,
       bio: user.bio,
       photo: user.photo,
-      sun: user.sun
+      sun: user.sun,
+      birth_date: user.birth_date
     }
 
   end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :show, :create, :update, :destroy]
       get 'users/:id/sun_compats', to: 'users#sun_compats'
       get 'users/:id/current_matches', to: 'users#current_matches'
-      get 'users/:id/updated_matches', to: 'users#updated_matches'
+      # get 'users/:id/updated_matches', to: 'users#updated_matches'
       resources :matches
       patch 'matches/:id/accept', to: 'matches#accept'
       patch 'matches/:id/decline', to: 'matches#decline'

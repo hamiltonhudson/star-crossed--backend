@@ -14,11 +14,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
 
-  # def new
-  #   @user = User.new
-  # end
-
-
   def create
     @user = User.new(user_params)
     if @user.valid?
@@ -35,16 +30,15 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      # @user.update_matches
-      @user.match_update
+      # @user.save
+      @user.update_matches
       @user.save
-      # @user.update_matches
-      @user.match_update
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
+
 
   def match_update
     @user = User.find(params[:id])
@@ -53,36 +47,24 @@ class Api::V1::UsersController < ApplicationController
     render json: @user_matches, status: 200
   end
 
-  # def user_matches
-  #   @user.find_matches
-  #   render json: @user, status: 200
-  # end
-  #
-  # def sun_compats
-  #   @name = @user.full_name
-  #   @sun_compats = @user.sun.compatibilities
-  #   render json: [@name, @sun_compats], status: 200
-  # end
 
   def current_matches
     @user = User.find(params[:id])
     @name = @user.full_name
-    @user_matches = @user.find_accepteds
-    render json: [@name, @user_matches]
-  # render json: @user.errors, status: :unprocessable_entity
+    @user_accepted_matches = @user.find_accepted
+    @user_pending_matches = @user.find_pending
+    @user_awaiting_matches = @user.find_awaiting
+      render json: [@name, {"accepted": @user_accepted_matches, "pending": @user_pending_matches, "awaiting": @user_awaiting_matches}]
   end
-
-  # def updated_matches
-  #   @user.matches.each do |match|
-  #     match.destroy
-  #   end
-  #   @user.find_matches
-  #   render json: @user.matches, status: 200
-  # end
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    # @user.matches.destroy
+    # byebug
+    @user.delete
+    byebug
+    @users = User.all
+    # byebug
     render json: @users, status: 200
   end
 
@@ -90,8 +72,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-   params.require(:user).permit(:first_name, :last_name, :birth_day, :birth_month, :birth_year, :gender, :gender_pref, :age, :location, :bio, :photo)
-    # params.require(:user).permit(:user_id, :first_name, :last_name, :birth_day, :birth_month, :birth_year, :gender, :gender_pref, :age, :location, :bio, :photo)
+    params.require(:user).permit(:first_name, :last_name, :birth_date, :birth_day, :birth_month, :birth_year, :sun, :gender, :gender_pref, :age, :location, :bio, :photo)
   end
 
 
@@ -100,3 +81,8 @@ class Api::V1::UsersController < ApplicationController
   end
 
 end
+
+# User.second.sun.compat_signs.include?(User.first.sun.sign)
+# User.first.sun.compat_signs.include?(User.second.sun.sign)
+# User.first.gender_pref.include?(User.second.gender)
+# User.second.gender_pref.include?(User.first.gender)
