@@ -1,7 +1,6 @@
 class Match < ApplicationRecord
-  belongs_to :user, :dependent => :destroy
+  belongs_to :user
   belongs_to :matched_user, class_name: "User"
-  # belongs_to :matched_user, class_name: "User", :dependent => :destroy
   validates_uniqueness_of :matched_user, scope: :user
   # validate :no_duplicate_compatibility
 

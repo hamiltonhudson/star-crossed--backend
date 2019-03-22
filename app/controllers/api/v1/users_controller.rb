@@ -1,7 +1,5 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: [:show, :update]
-  # before_action :find_user, only: [:show, :sun_compats, :user_matches, :update, :update_matches]
-  # after_action :user_matches, only: [:create, :update]
 
   def index
     @users = User.all
@@ -12,12 +10,11 @@ class Api::V1::UsersController < ApplicationController
   def show
     render json: @user, status: 200
   end
-
+  User.create!(first_name: "name", last_name: "user", birth_date: "1989-08-02", gender: "F", gender_pref: "M")
 
   def create
     @user = User.new(user_params)
     if @user.valid?
-      # @user.save
       @user.find_matches
       @user.save
       render json: @user, status: 200
@@ -30,7 +27,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      # @user.save
+      @user.save
       @user.update_matches
       @user.save
       render json: @user
@@ -60,11 +57,9 @@ class Api::V1::UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     # @user.matches.destroy
-    # byebug
+    @user.matches.delete_all
     @user.delete
-    byebug
     @users = User.all
-    # byebug
     render json: @users, status: 200
   end
 

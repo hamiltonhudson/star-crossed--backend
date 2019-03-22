@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   belongs_to :sun
   has_many :matches, dependent: :destroy
-  # has_many :matches, dependent: :delete_all
   has_many :matched_users, through: :matches
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -20,11 +19,9 @@ class User < ApplicationRecord
   # has_many :conversations
   after_create :find_matches, before: :save
   after_update :get_sun_sign, before: :save
-  # after_update :find_matches, before: :save
   after_update :update_matches, before: :save
-  # after_update :capitalization, before: :save
+  after_update :capitalization, before: :save
   # after_update :get_age, before: :save
-  # after_validation :find_matches, before: :save
 
   def full_name
     "#{self.first_name} #{self.last_name}".scan(/\w+/).each { |x| x.capitalize! }.join(' ')
@@ -33,7 +30,6 @@ class User < ApplicationRecord
 
   def dob
     bday = Date.new(("#{self.birth_year}").to_i, ("#{self.birth_month}").to_i, ("#{self.birth_day}").to_i)
-    # bday = [("#{sel.birth_year}").to_i, ("#{sel.birth_month}").to_i, ("#{sel.birth_day}").to_i].join(" ")
   end
 
   def find_matches
@@ -43,9 +39,8 @@ class User < ApplicationRecord
     User.all.find_all do |user|
       if (compat_sun_ids.include?(user.sun_id)) && (user.id != self.id)
         if self.gender_pref.include?(user.gender) && user.gender_pref.include?(self.gender)
-          unless Match.where(status: "declined").exists?
           Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
-          end
+          Match.find_or_create_by(user_id: user.id, matched_user_id: self.id)
         end
       end
     end
@@ -59,17 +54,18 @@ class User < ApplicationRecord
     User.all.find_all do |user|
       if (compat_sun_ids.include?(user.sun_id)) && (user.id != self.id)
         if self.gender_pref.include?(user.gender) && user.gender_pref.include?(self.gender)
-          unless Match.where(status: "declined").exists?
+          # unless Match.where(status: "declined").exists?
             Match.find_or_create_by(user_id: self.id, matched_user_id: user.id)
-            # self.check_gender_update
-          end
+            Match.find_or_create_by(user_id: user.id, matched_user_id: self.id)
+            self.check_gender_update
+          # end
         end
       end
     end
   end
 
   def check_gender_update
-    self.matches.map do |match|
+    self.matches.all.map do |match|
       if !match.matched_user.gender_pref.include?(self.gender) || !self.gender_pref.include?(match.matched_user.gender)
         match.decline_match
         match.save
@@ -123,14 +119,14 @@ class User < ApplicationRecord
       gp = self.gender_pref.split(",").map{ |pref| pref.strip.upcase }.join(",")
       self.gender_pref = gp
     end
-    location = self.location.split(" ").map {|word| word.capitalize}
-    if !location[-2].include?(",")
-      self.location = location.join(" ")
-    else
-      location[-1].upcase!
-      self.location = location.join(" ")
-    end
-    self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
+    # location = self.location.split(" ").map {|word| word.capitalize}
+    # if !location[-2].include?(",")
+    #   self.location = location.join(" ")
+    # else
+    #   location[-1].upcase!
+    #   self.location = location.join(" ")
+    # end
+    # self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
   end
 
 
