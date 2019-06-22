@@ -14,7 +14,7 @@ gem 'puma', '~> 3.11'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # gem 'webpacker', '~> 3.0'
 
@@ -35,8 +35,9 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 gem 'rest-client'
 gem 'json'
-
+gem "jwt", "~> 2.1"
 gem 'dotenv'
+# gem 'dotenv-rails', groups: [:development, :test]
 
 #clean database without affecting schema in order to re-seed
 gem 'database_cleaner', '~> 1.7'
