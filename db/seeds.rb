@@ -14,9 +14,8 @@ suns_array = JSON.parse(all_suns)
 
 suns_array.each do |hash|
   Sun.create!(sign: hash["name"], start_date: hash["sun_dates"].first,
-  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item }.join(", "), keywords: hash["keywords"].join(", "), symbol: hash["symbol"], element: hash["element"],vibe: hash["vibe"])
+  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item }.join(", "), keywords: hash["keywords"].join(", "), symbol: hash["symbol"], element: hash["element"], vibe: hash["vibe"], good_traits: hash["good_traits"].map { |item| item.strip || item }.join(", "), bad_traits: hash["bad_traits"].map { |item| item.strip || item }.join(", "))
 end
-
 
 def create_compatibilities(sun_sign)
   Sun.all.map do |sun|

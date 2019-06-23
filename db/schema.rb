@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_101748) do
+ActiveRecord::Schema.define(version: 2019_06_23_011809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,9 @@ ActiveRecord::Schema.define(version: 2019_03_20_101748) do
     t.string "element"
     t.string "vibe"
     t.string "motto"
+    t.string "glyph"
+    t.string "good_traits"
+    t.string "bad_traits"
   end
 
   create_table "users", force: :cascade do |t|
