@@ -9,7 +9,7 @@ class Sun < ApplicationRecord
   after_create :update_vibes, before: :save
   after_create :add_mottos, before: :save
   after_create :add_glyphs, before: :save
-  after_create :capitalize_traits, before: :save
+  after_create :capitalize_attributes, before: :save
 
   def find_mutual_compats(sun, arr)
     arr.select do |el|
@@ -109,7 +109,7 @@ class Sun < ApplicationRecord
   end
 
   def add_glyphs
-    # ♈︎♉︎♋︎♌︎♍︎♎︎♏︎♐︎♑︎♒︎♓︎
+    # ♈︎ ♉︎ ♋︎ ♌︎ ♍︎ ♎︎ ♏︎ ♐︎ ♑︎ ♒︎ ♓︎
     if self.id == 1
       self.glyph = " ♈︎"
       self.save
@@ -149,9 +149,11 @@ class Sun < ApplicationRecord
     end
   end
 
-  def capitalize_traits
-    self.good_traits = self.good_traits.split(",").map { |trait| trait.strip.capitalize }.join(", ")
-    self.bad_traits = self.bad_traits.split(",").map { |trait| trait.strip.capitalize }.join(", ")
+
+  def capitalize_attributes
+    self.symbol = self.symbol.split(" ").map(&:capitalize).join(" ")
+    self.good_traits = self.good_traits.split.map(&:capitalize).join(" ").split(", ").map{ |trait| trait.gsub(/-[a-xz]/) { |t| t.upcase } }.join(", ")
+    self.bad_traits = self.bad_traits.split.map(&:capitalize).join(" ").split(", ").map{ |trait| trait.gsub(/-[a-xz]/) { |t| t.upcase } }.join(", ")
     self.save
   end
 
