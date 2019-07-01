@@ -2,6 +2,9 @@ class User < ApplicationRecord
   belongs_to :sun
   has_many :matches, dependent: :destroy
   has_many :matched_users, through: :matches
+  has_secure_password
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :birth_date, presence: true
@@ -14,9 +17,9 @@ class User < ApplicationRecord
   before_validation :get_sun_sign
   before_validation :capitalization
   before_validation :get_age
-  # has_many :subscriptions
-  # has_many :chats, through: :subscriptions
-  # has_many :conversations
+  has_many :subscriptions
+  has_many :chats, through: :subscriptions
+  has_many :conversations
   after_create :find_matches, before: :save
   after_update :get_sun_sign, before: :save
   after_update :update_matches, before: :save

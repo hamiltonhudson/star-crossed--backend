@@ -5,9 +5,9 @@ class UserSerializer < ActiveModel::Serializer
 
   belongs_to :sun
 
-  # has_many :subscriptions
-  # has_many :chats, through: :subscriptions
-  # has_many :conversations
+  has_many :subscriptions
+  has_many :chats, through: :subscriptions
+  has_many :conversations
 
   def matches
     object.matches.map do |match|

@@ -14,7 +14,7 @@ suns_array = JSON.parse(all_suns)
 
 suns_array.each do |hash|
   Sun.create!(sign: hash["name"], start_date: hash["sun_dates"].first,
-  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map { |item| item.strip || item }.join(", "), keywords: hash["keywords"].join(", "), symbol: hash["symbol"], element: hash["element"], vibe: hash["vibe"], good_traits: hash["good_traits"].map { |item| item.strip || item }.join(", "), bad_traits: hash["bad_traits"].map { |item| item.strip || item }.join(", "))
+  end_date: hash["sun_dates"].last, compat_signs: hash["compatibility"].map{ |item| item.strip || item }.join(", "), keywords: hash["keywords"].join(", "), symbol: hash["symbol"], element: hash["element"], vibe: hash["vibe"], good_traits: hash["good_traits"].map { |item| item.strip || item }.join(", "), bad_traits: hash["bad_traits"].map { |item| item.strip || item }.join(", "))
 end
 
 def create_compatibilities(sun_sign)
@@ -76,6 +76,15 @@ User.create!(email: 'adam@a.com', password: '123456', first_name: 'Adam', last_n
 User.create!(email: 'nick@n.com', password: '123456', first_name: 'Nick', last_name: 'Cohen', birth_date: "1980-04-09", gender: 'M', gender_pref: "F,M", location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182150/pexels-man12.jpg')
 #22
 User.create!(email: 'alex@a.com', password: '123456', first_name: 'alex', last_name: 'lords', birth_date: "1979-07-12", gender: 'm', gender_pref: 'f', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182156/pexels-man13.jpg')
+
+
+
+# User.create!(email: "ham@hi.com", password: "howdy", first_name: "new", last_name: "user", birth_date: "1989-08-02", gender: "F", gender_pref: "M", location: "Brooklyn, NY", bio: "The answer, my friend, is blowing in the wind, the answer is blowing in the wind.")
+
+# User.create(name: 'Jon van Gelder', username: 'jon', email: 'j@j.com', password_digest: BCrypt::Password.create('darkess'))
+# User.create(name: 'Downing Hudson', username: 'downing', email: 'd@d.com', password_digest: BCrypt::Password.create('deedle'))
+# User.create(username: 'jon', password_digest: BCrypt::Password.create('darkess'))
+# User.create(username: 'downing', password_digest: BCrypt::Password.create('deedle'))
 
 
 User.all.each { |user| user.find_matches }
