@@ -36,8 +36,8 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'rest-client'
 gem 'json'
 gem "jwt", "~> 2.1"
-gem 'dotenv'
-# gem 'dotenv-rails', groups: [:development, :test]
+# gem 'dotenv'
+gem 'dotenv-rails', groups: [:development, :test]
 
 #clean database without affecting schema in order to re-seed
 gem 'database_cleaner', '~> 1.7'

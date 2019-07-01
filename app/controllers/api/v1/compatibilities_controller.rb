@@ -1,4 +1,5 @@
 class Api::V1::CompatibilitiesController < ApplicationController
+  before_action :requires_login, only: [:index, :show]
 
   def index
     @compatibilities = Compatibility.all

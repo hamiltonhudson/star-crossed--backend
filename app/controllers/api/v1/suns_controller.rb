@@ -1,4 +1,5 @@
 class Api::V1::SunsController < ApplicationController
+  before_action :requires_login, only: [:index, :show]
 
   def index
     @suns = Sun.all

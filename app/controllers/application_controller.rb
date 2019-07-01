@@ -28,20 +28,13 @@ class ApplicationController < ActionController::API
     end
   end
 
-  # def payload
-  #   {name: params["first_name"], id: @user.id}
-  #   # if above doesn't work, try below
-  #   # {email: params["email"], id: @user.id}
-  # end
-
-  #payload method with more control
-  # def payload(email, id)
-  #   {email: email, id: id}
-  # end
-
-  def payload(name, id)
-    { name: name, id: id }
+  def payload(email, id)
+    { email: email, id: id }
   end
+
+  # def payload(user, id)
+  #   {user: user, id: id}
+  # end
 
   def get_token(payload)
     JWT.encode payload, secret_key(), 'HS256'

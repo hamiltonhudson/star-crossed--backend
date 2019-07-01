@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+require 'dotenv'
+
 DatabaseCleaner.clean_with(:truncation)
 
 
@@ -80,11 +82,5 @@ User.create!(email: 'alex@a.com', password: '123456', first_name: 'alex', last_n
 
 
 # User.create!(email: "ham@hi.com", password: "howdy", first_name: "new", last_name: "user", birth_date: "1989-08-02", gender: "F", gender_pref: "M", location: "Brooklyn, NY", bio: "The answer, my friend, is blowing in the wind, the answer is blowing in the wind.")
-
-# User.create(name: 'Jon van Gelder', username: 'jon', email: 'j@j.com', password_digest: BCrypt::Password.create('darkess'))
-# User.create(name: 'Downing Hudson', username: 'downing', email: 'd@d.com', password_digest: BCrypt::Password.create('deedle'))
-# User.create(username: 'jon', password_digest: BCrypt::Password.create('darkess'))
-# User.create(username: 'downing', password_digest: BCrypt::Password.create('deedle'))
-
 
 User.all.each { |user| user.find_matches }
