@@ -28,13 +28,9 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def payload(email, id)
-    { email: email, id: id }
+  def payload(user, id)
+    { user: UserSerializer, id: id }
   end
-
-  # def payload(user, id)
-  #   {user: user, id: id}
-  # end
 
   def get_token(payload)
     JWT.encode payload, secret_key(), 'HS256'

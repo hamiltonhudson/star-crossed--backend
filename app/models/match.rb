@@ -17,11 +17,13 @@ class Match < ApplicationRecord
       self.inverses.find do |inverse|
         inverse.update_attribute(:status, "awaiting")
         self.update_attribute(:status, "pending")
+        self.save
       end
     elsif self.status == "awaiting"
       self.inverses.find do |inverse|
         inverse.update_attribute(:status, "accepted")
         self.update_attribute(:status, "accepted")
+        self.save
       end
     end
   end
@@ -31,6 +33,7 @@ class Match < ApplicationRecord
     self.inverses.find do |inverse|
       inverse.update_attribute(:status, "declined")
     self.update_attribute(:status, "declined")
+    self.save
     end
   end
 
@@ -42,9 +45,8 @@ class Match < ApplicationRecord
   # end
 
   private
-
-  def inverse_match_options
-    { matched_user_id: user_id, user_id: matched_user_id }
-  end
+    def inverse_match_options
+      { matched_user_id: user_id, user_id: matched_user_id }
+    end
 
 end

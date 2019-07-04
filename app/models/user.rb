@@ -2,9 +2,12 @@ class User < ApplicationRecord
   belongs_to :sun
   has_many :matches, dependent: :destroy
   has_many :matched_users, through: :matches
-  has_secure_password
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true
+  has_secure_password
+  # validates :password, presence: true
+  validates :password, presence: {on: :create}
+  # validates :password, presence: {on: :create}, confirmation: {case_sensitive: true}, length: {minimum: 6}
+  # validates :password_confirmation, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :birth_date, presence: true
@@ -13,6 +16,9 @@ class User < ApplicationRecord
   validates :birth_day, presence: true
   validates :gender, presence: true
   validates :gender_pref, presence: true
+  validates :location, presence: true
+  validates :bio, presence: true
+  validates :photo, presence: true
   before_validation :date_of_birth
   before_validation :get_sun_sign
   before_validation :capitalization
@@ -78,7 +84,6 @@ class User < ApplicationRecord
 
   def find_accepted
     self.matches.select{ |match| match.status == "accepted"}
-    # self.matches.find_all{ |match| match.status == "accepted"}
   end
 
   def find_pending
@@ -90,47 +95,45 @@ class User < ApplicationRecord
   end
 
   private
+    def date_of_birth
+      self.birth_year = self.birth_date.split("-")[0]
+      self.birth_month = self.birth_date.split("-")[1]
+      self.birth_day = self.birth_date.split("-")[2]
+    end
 
-  def date_of_birth
-    self.birth_year = birth_date.split("-")[0]
-    self.birth_month = birth_date.split("-")[1]
-    self.birth_day = birth_date.split("-")[2]
-    # self.save
-  end
-
-  def get_sun_sign
-    Sun.all.find do |sun|
-      if self.dob.zodiac_sign == sun.sign
-        self.sun = sun
+    def get_sun_sign
+      Sun.all.find do |sun|
+        if self.dob.zodiac_sign == sun.sign
+          self.sun = sun
+        end
       end
     end
-  end
 
 
-  def get_age
-    age_calc = AgeCalculator.new(self.dob)
-    self.age = age_calc.age
-  end
-
-  def capitalization
-    self.first_name = self.first_name.capitalize
-    self.last_name = self.last_name.capitalize
-    self.gender = self.gender.capitalize
-    if self.gender_pref.split.length == 1
-      self.gender_pref = self.gender_pref.upcase
-    elsif self.gender_pref.split.length > 1
-      gp = self.gender_pref.split(",").map{ |pref| pref.strip.upcase }.join(",")
-      self.gender_pref = gp
+    def get_age
+      age_calc = AgeCalculator.new(self.dob)
+      self.age = age_calc.age
     end
-    # location = self.location.split(" ").map {|word| word.capitalize}
-    # if !location[-2].include?(",")
-    #   self.location = location.join(" ")
-    # else
-    #   location[-1].upcase!
-    #   self.location = location.join(" ")
-    # end
-    # self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
-  end
+
+    def capitalization
+      self.first_name = self.first_name.capitalize
+      self.last_name = self.last_name.capitalize
+      self.gender = self.gender.capitalize
+      if self.gender_pref.split.length == 1
+        self.gender_pref = self.gender_pref.upcase
+      elsif self.gender_pref.split.length > 1
+        gp = self.gender_pref.split(",").map{ |pref| pref.strip.upcase }.join(",")
+        self.gender_pref = gp
+      end
+      # location = self.location.split(" ").map {|word| word.capitalize}
+      # if !location[-2].include?(",")
+      #   self.location = location.join(" ")
+      # else
+      #   location[-1].upcase!
+      #   self.location = location.join(" ")
+      # end
+      # self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
+    end
 
 
 end

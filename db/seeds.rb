@@ -39,7 +39,7 @@ User.create!(email: 'jill@j.com', password: '123456', first_name: "Jill", last_n
 #3
 User.create!(email: 'megan@m.com', password: '123456', first_name: "Megan", last_name: "Callahan", birth_date: "1993-06-21", gender: "F", gender_pref: "F", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1549832420/pexels-woman3.jpg')
 #4
-User.create!(email: 'jorja@j.com', password: '123456', first_name: "Jorja", last_name: "Marte", birth_date: "1992-05-07", gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182008/pexels-woman4.jpg')
+User.create!(email: 'daphne@d.com', password: '123456', first_name: "Daphne", last_name: "DuPhraine", birth_date: "1992-05-07", gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182008/pexels-woman4.jpg')
 #5
 User.create!(email: 'holly@h.com', password: '123456', first_name: "Holly", last_name: "Holmes", birth_date: "1989-08-02", gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182019/pexels-woman5.jpg')
 #6
@@ -49,7 +49,7 @@ User.create!(email: 'dana@d.com', password: '123456', first_name: "Dana", last_n
 #8
 User.create!(email: 'liz@l.com', password: '123456', first_name: "Liz", last_name: "Maroney", birth_date: "1992-10-12", gender: "F", gender_pref: "F,M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: "https://res.cloudinary.com/ehh/image/upload/v1550182036/pexels-woman8.jpg")
 #9
-User.create!(email: 'daphne@d.com', password: '123456', first_name: "Daphne", last_name: "DuPhraine", birth_date: "1987-09-14", gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: "https://res.cloudinary.com/ehh/image/upload/c_crop,h_3797/v1549832443/pexels-woman9.jpg")
+User.create!(email: 'jorja@j.com', password: '123456', first_name: "Jorja", last_name: "Marte", birth_date: "1987-09-14", gender: "F", gender_pref: "M", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: "https://res.cloudinary.com/ehh/image/upload/c_crop,h_3797/v1549832443/pexels-woman9.jpg")
 #10
 User.create!(email: 'fiona@f.com', password: '123456', first_name: "Fiona", last_name: "Smuthers", birth_date: "1986-03-19", gender: "F", gender_pref: "F", location: "New York, NY", bio: Faker::Lorem.paragraph, photo: "https://res.cloudinary.com/ehh/image/upload/v1550182047/pexels-woman10.jpg")
 #11
@@ -79,8 +79,5 @@ User.create!(email: 'nick@n.com', password: '123456', first_name: 'Nick', last_n
 #22
 User.create!(email: 'alex@a.com', password: '123456', first_name: 'alex', last_name: 'lords', birth_date: "1979-07-12", gender: 'm', gender_pref: 'f', location: 'New York, NY', bio: Faker::Lorem.paragraph, photo: 'https://res.cloudinary.com/ehh/image/upload/v1550182156/pexels-man13.jpg')
 
-
-
-# User.create!(email: "ham@hi.com", password: "howdy", first_name: "new", last_name: "user", birth_date: "1989-08-02", gender: "F", gender_pref: "M", location: "Brooklyn, NY", bio: "The answer, my friend, is blowing in the wind, the answer is blowing in the wind.")
 
 User.all.each { |user| user.find_matches }

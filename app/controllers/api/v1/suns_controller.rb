@@ -15,19 +15,16 @@ class Api::V1::SunsController < ApplicationController
 
   def create
     @sun = Sun.new(sun_params)
-    # if @sun.valid?
+    if @sun.valid?
     # @compatible_suns = [@sun.compatible_suns, @sun.inverse_compatible_suns]
-    # @compatible_suns = @sun.compatible_suns && @sun.inverse_compatible_suns
-    # @compatible_suns = @sun.compatible_suns + @sun.inverse_compatible_suns
-    #   @sun.save
-    if @sun.save
+      @sun.save
+    # if @sun.save
     # render json: @sun, status: 200
   end
 
   private
-
-   def sun_params
-     params.require(:sun).permit(:sign, :start_date, :end_date, :compat_signs)
-   end
+    def sun_params
+      params.require(:sun).permit(:sign, :start_date, :end_date, :compat_signs)
+    end
 
 end

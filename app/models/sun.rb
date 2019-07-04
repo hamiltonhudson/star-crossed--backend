@@ -4,7 +4,6 @@ class Sun < ApplicationRecord
   has_many :compatible_suns, through: :compatibilities
   has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun, as: :compatible_suns
-  # after_create :update_pisces, before: :save
   # after_create :add_self_compatibility
   after_create :update_add_attributes, before: :save
   after_create :capitalize_attributes, before: :save
@@ -16,14 +15,6 @@ class Sun < ApplicationRecord
   end
 
   private
-
-  # def update_pisces
-  #   if self.sign == "Pisces"
-  #     # self.compat_signs = ["Taurus", "Cancer", "Scorpio", "Capricorn"].join(", ")
-  #     self.compat_signs = "Taurus, Cancer, Scorpio, Capricorn"
-  #     self.save
-  #   end
-  # end
 
   def add_self_compatibility
     @updated_compats = self.compat_signs
@@ -96,8 +87,8 @@ class Sun < ApplicationRecord
       self.save
     elsif self.id == 11
       # self.vibe = "Eccentric"
-      self.vibe = "Original"
       # self.vibe = "Individualistic"
+      self.vibe = "Original"
       self.motto = "I know."
       self.glyph = " ♒︎"
       self.save

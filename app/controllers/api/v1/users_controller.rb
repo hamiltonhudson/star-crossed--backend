@@ -21,10 +21,11 @@ class Api::V1::UsersController < ApplicationController
       @user.find_matches
       @user.save
       render json: {
-        email: @user.email,
+        user: UserSerializer.new(@user),
         id: @user.id,
-        token: get_token(payload(@user.email, @user.id))
-      }
+        token: get_token(payload(@user, @user.id))
+        # }, status: :created
+        }, status: :accepted
     else
       render json: {
         errors: @user.errors.full_messages
@@ -33,17 +34,16 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    #find_user
-    @user = User.find_by(params[:id])
-    if @user.update(user_params)
-      @user.save
+    find_user
+    @user.update(user_params)
+      if @user.save
       @user.update_matches
       @user.save
       render json: {
-        email: @user.email,
+        user: UserSerializer.new(@user),
         id: @user.id,
-        token: get_token(payload(@user.email, @user.id))
-      }
+        token: get_token(payload(@user, @user.id))
+        }, status: :accepted
     else
       render json: {
         errors: @user.errors.full_messages
@@ -89,7 +89,7 @@ class Api::V1::UsersController < ApplicationController
   def auth
     if !valid_token?
       render json: {
-        message: "You wrong!"
+        message: "NOPE!"
       }, status: :unauthorized
     end
   end
@@ -100,7 +100,7 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def find_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params["id"])
     end
 
 end

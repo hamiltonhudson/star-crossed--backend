@@ -1,6 +1,6 @@
 class Api::V1::MatchesController < ApplicationController
   # before_action: find_match, only: [:show, :update, :declined, :destroy]
-  before_action :requires_login, only: [:index, :show, :create, :update, :accept, :decline, :destroy]
+  before_action :requires_login
 
   def index
     @matches = Match.all
@@ -38,18 +38,27 @@ class Api::V1::MatchesController < ApplicationController
     @match = Match.find(params[:id])
     @match.accept_match
     @user = @match.user
+    @user.save
     @users = User.all
-    # render json: [@match, @matched_user], status: 200
-    render json: @user, status: 200
-
+    render json: {
+      user: UserSerializer.new(@user),
+      match_status: @match.status,
+      # users: @users
+    }, status: 200
   end
 
 
   def decline
     @match = Match.find(params[:id])
     @match.decline_match
+    @user = @match.user
+    @user.save
     @users = User.all
-    render json: @users, status: 200
+    render json: {
+      user: UserSerializer.new(@user),
+      match_status: @match.status,
+      # users: @users
+    }, status: 200
   end
 
 
