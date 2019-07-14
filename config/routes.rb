@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :subscriptions
   namespace :api do
     namespace :v1 do
-      resources :auth, only: [:create]
+      resources :auth, only: [:create, :destroy]
       resources :suns, only: [:index, :show]
       # resources :compatibilities
       resources :compatibilities, only: [:index, :show]
@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       get 'users/:id/current_matches', to: 'users#current_matches'
       # get 'users/:id/updated_matches', to: 'users#updated_matches'
       get '/users/:user_id/chats', to: 'users#users_chats'
+
+      # get '/user/auth' => 'sessions#auth'
+      # post '/users/create' => 'sessions#create'
+      post 'knock_token' => 'knock_token#create' # Get login token from Knock
 
       # resources :matches
       resources :matches, only: [:index, :show, :create, :update]

@@ -1,5 +1,6 @@
 class Api::V1::ConversationsController < ApplicationController
   # before_action :identified_by,  only: [:index, :create]
+  before_action :authenticate_user
 
 
   def create

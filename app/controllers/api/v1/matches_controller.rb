@@ -1,6 +1,7 @@
 class Api::V1::MatchesController < ApplicationController
   # before_action: find_match, only: [:show, :update, :declined, :destroy]
-  before_action :requires_login
+  # before_action :requires_login
+  before_action :authenticate_user
 
   def index
     @matches = Match.all

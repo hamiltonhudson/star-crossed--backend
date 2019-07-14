@@ -1,33 +1,27 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    include ActionController::Cookies
+    include Knock::Authenticable
     identified_by :current_user
+    # before_action :authenticate_user
 
 
     def connect
       self.current_user = find_verified_user
     end
 
-    # def connect
-    #   # self.current_user = User.find_by(request.params[:user_id])
-    #   # self.current_user = User.find_by(id: request.params[:id])
-    #   # self.current_user = User.find_by(id: request.params[:user])
-    #   # self.current_user = User.find_by(id: request.params[:user_id])
-    #   # self.current_user = User.find_by(params[:user_id])
-    #   # self.current_user = User.find_by(id: cookies.signed[:user_id])
-    # end
-
     private
 
-    def find_verified_user
-      # if current_user = User.find_by(request.params[:user_id])
-      if current_user = User.find_by(id: request.params[:id])
-
-        current_user
-      else
-        reject_unauthorized_connection
+      def find_verified_user
+          @jwt_token = request.cookies["X-Authorization"]
+          user_id = JWT.decode(@jwt_token, Knock.token_secret_signature_key.call, false)[0]["id"]
+          # user_id = JWT.decode(@jwt_token, Knock.token_secret_signature_key.call, true, {algorithm: 'HS256'})[0]["id"]
+          if current_user = User.find_by(id: user_id)
+            current_user
+        else
+          reject_unauthorized_connection
+        end
       end
-    end
-
 
   end
 end

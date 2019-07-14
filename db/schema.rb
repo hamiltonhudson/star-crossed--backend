@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_25_062059) do
+ActiveRecord::Schema.define(version: 2019_07_11_053629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "chats", force: :cascade do |t|
-    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
   end
 
   create_table "compatibilities", force: :cascade do |t|
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 2019_06_25_062059) do
 
   create_table "conversations", force: :cascade do |t|
     t.string "message"
-    t.bigint "chat_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "chat_id"
     t.index ["chat_id"], name: "index_conversations_on_chat_id"
   end
 
@@ -52,10 +52,10 @@ ActiveRecord::Schema.define(version: 2019_06_25_062059) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer "user_id"
     t.integer "chat_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "suns", force: :cascade do |t|
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_06_25_062059) do
 
   add_foreign_key "compatibilities", "suns"
   add_foreign_key "compatibilities", "suns", column: "compatible_sun_id"
+  add_foreign_key "conversations", "chats"
   add_foreign_key "matches", "users"
   add_foreign_key "matches", "users", column: "matched_user_id"
   add_foreign_key "users", "suns"

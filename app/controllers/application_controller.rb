@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::API
+  include ::ActionController::Cookies
+  include Knock::Authenticable
+  # protect_from_forgery with: :exception
+
 
   def secret_key
     ENV['SECRET_KEY']
@@ -48,5 +52,18 @@ class ApplicationController < ActionController::API
   # def is_admin
   #  #write this out
   # end
+
+  def authenticate_user
+    jwt = cookies.signed[:jwt]
+    decode_jwt(jwt)
+  end
+
+  def decode_jwt(jwt)
+    begin
+      return JWT.decode authorization_token(), secret_key(), true
+    rescue JWT::VerificationError, JWT::DecodeError
+      return nil
+    end
+  end
 
 end

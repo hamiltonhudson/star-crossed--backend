@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :requires_login, only: [:index, :show]
+  # before_action :requires_login, only: [:index, :show]
+  before_action :authenticate_user, only: [:show]
   # before_action :find_user, only: [:show, :update]
 
   def index
@@ -23,8 +24,8 @@ class Api::V1::UsersController < ApplicationController
       render json: {
         user: UserSerializer.new(@user),
         id: @user.id,
-        token: get_token(payload(@user, @user.id))
-        # }, status: :created
+        token: get_token(payload(@user, @user.id)),
+        cookies: cookies.signed[:token]
         }, status: :accepted
     else
       render json: {
