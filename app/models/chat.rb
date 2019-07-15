@@ -1,8 +1,8 @@
 class Chat < ApplicationRecord
   has_many :conversations, dependent: :destroy
-  # has_many :subscriptions, dependent: :destroy
-  # has_many :users, through: :subscriptions
-  has_many :users, through: :conversations
+  has_many :subscriptions, dependent: :destroy
+  has_many :users, through: :subscriptions
+  # has_many :users, through: :conversations
   # validate :check_existing
 
   # validates :sender_id, uniqueness: {scope: :receiver_id}
