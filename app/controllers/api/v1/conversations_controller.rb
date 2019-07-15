@@ -5,6 +5,7 @@ class Api::V1::ConversationsController < ApplicationController
 
   def create
     conversation = Conversation.new(conversation_params)
+    current_user = User.find_by(id: params["user_id"])
     conversation.user_id = current_user.id
     chat = Chat.find(conversation_params[:chat_id])
      if conversation.save
@@ -23,8 +24,39 @@ class Api::V1::ConversationsController < ApplicationController
   private
 
   def conversation_params
-    params.require(:conversation).permit(:message, :chat_id)
-    # params.require(:conversation).permit(:message, :chat_id, :user_id)
+    # params.require(:conversation).permit(:message, :chat_id)
+    params.require(:conversation).permit(:message, :chat_id, :user_id)
   end
 
 end
+
+# class Api::V1::ConversationsController < ApplicationController
+#   # before_action :identified_by,  only: [:index, :create]
+#   before_action :authenticate_user
+#
+#
+#   def create
+#     conversation = Conversation.new(conversation_params)
+#     conversation.user_id = current_user.id
+#     chat = Chat.find(conversation_params[:chat_id])
+#      if conversation.save
+#        serialized_data = ActiveModelSerializers::Adapter::Json.new(
+#          ConversationSerializer.new(conversation)
+#        ).serializable_hash
+#        ConversationsChannel.broadcast_to(
+#          chat,
+#          serialized_data
+#        )
+#        head :ok
+#      end
+#    end
+#
+#
+#   private
+#
+#   def conversation_params
+#     params.require(:conversation).permit(:message, :chat_id, :sender_id, :receiver_id)
+#     # params.require(:conversation).permit(:message, :chat_id, :user_id)
+#   end
+#
+# end

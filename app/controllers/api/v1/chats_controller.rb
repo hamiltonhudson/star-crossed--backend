@@ -44,7 +44,8 @@ class Api::V1::ChatsController < ApplicationController
         "current_user_#{params["receiver_id"]}",
         @serialized_data
       )
-        head :ok
+        # head :ok
+        render json: @chat
     end
   end
 
