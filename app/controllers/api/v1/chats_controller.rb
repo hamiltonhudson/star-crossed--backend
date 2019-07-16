@@ -1,12 +1,12 @@
 class Api::V1::ChatsController < ApplicationController
-  # before_action :requires_login, only: [:index, :create]
   before_action :authenticate_user
 
 
   def index
     @user = User.find_by(id: authenticate_user[0]["id"])
     user_id = @user.id
-    @chats = @user.chats
+    # @chats = @user.chats
+    @chats = Chat.select { |chat| chat.user_ids.include?(@user.id)}
     # @serialized_data = ActiveModelSerializers::Adapter::Json.new(
     #   ChatSerializer.new(@chat)
     # ).serializable_hash
@@ -17,11 +17,9 @@ class Api::V1::ChatsController < ApplicationController
     render json: @chats
   end
 
-  #create via subscription model
   def create
     @sender = User.find(params["sender_id"])
     @receiver = User.find(params["receiver_id"])
-    # @chat.users = [@sender, @receiver]
     @chat = Chat.new(chat_params)
       if @chat.save
         @ownership1 = Subscription.new()
@@ -51,7 +49,7 @@ class Api::V1::ChatsController < ApplicationController
 
   private
     def chat_params
-      params.require(:chat).permit(:id, :title, :sender_id, :receiver_id, :users)
+      params.require(:chat).permit(:title, :sender_id, :receiver_id)
     end
 
 end
