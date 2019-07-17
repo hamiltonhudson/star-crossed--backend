@@ -5,8 +5,8 @@ class Api::V1::ChatsController < ApplicationController
   def index
     @user = User.find_by(id: authenticate_user[0]["id"])
     user_id = @user.id
-    # @chats = @user.chats
-    @chats = Chat.select { |chat| chat.user_ids.include?(@user.id)}
+    @chats = @user.chats
+    # @chats = Chat.select { |chat| chat.user_ids.include?(@user.id)}
     # @serialized_data = ActiveModelSerializers::Adapter::Json.new(
     #   ChatSerializer.new(@chat)
     # ).serializable_hash
@@ -30,7 +30,6 @@ class Api::V1::ChatsController < ApplicationController
         @ownership2.chat_id = @chat.id
         @ownership2.user_id = @receiver.id
         @ownership2.save
-        # if @subscription.save
         @serialized_data = ActiveModelSerializers::Adapter::Json.new(
           ChatSerializer.new(@chat)
         ).serializable_hash
@@ -42,8 +41,10 @@ class Api::V1::ChatsController < ApplicationController
         "current_user_#{params["receiver_id"]}",
         @serialized_data
       )
-        # head :ok
         render json: @chat
+        # render json: {
+        #   chat: @chat, sender: @sender, receiver: @receiver
+        # }
     end
   end
 
