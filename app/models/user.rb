@@ -84,6 +84,11 @@ class User < ApplicationRecord
     self.matches.select{ |match| match.status == "accepted"}
   end
 
+  def find_accepted_matched_users
+    accepted = self.matches.select{ |match| match.status == "accepted"}
+    accepted.map{ |a| a.matched_user }
+  end
+
   def find_pending
     self.matches.select{ |match| match.status == "pending"}
   end

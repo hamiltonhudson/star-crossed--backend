@@ -65,9 +65,10 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(params[:id])
     @name = @user.full_name
     @user_accepted_matches = @user.find_accepted
+    @accepted_matched_users = @user.find_accepted_matched_users
     @user_pending_matches = @user.find_pending
     @user_awaiting_matches = @user.find_awaiting
-      render json: [@name, {"accepted": @user_accepted_matches, "pending": @user_pending_matches, "awaiting": @user_awaiting_matches}]
+      render json: [@name, {"accepted": @user_accepted_matches, "accepted users": @accepted_matched_users, "pending": @user_pending_matches, "awaiting": @user_awaiting_matches}]
   end
 
 
