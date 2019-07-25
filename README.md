@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Star-Crossed is a zodiac dating app that matches users based on compatibility of their sun sign and gender preference. A user is required to include their DOB (to find their sun sign on the backend), as well as gender and gender preference for filtering results. Two algorithms on the backend to facilitate matches — one finds a sun sign’s compatible signs based on API data. The other creates matches with that compatibility, then cross-references against both matched users gender and gender preference. In their profile, a user can view all matches, click to view a match’s profile, and decline or accept a match. Declining will nix the match for both users obviously, but accepting will generate a status of either “pending” or “accepted”, contingent on whether or not the matched user has also accepted. If a user edits their details (gender preference, for example) matches will be regenerated, but declined matches will never be re-created or re-added. A user can of course view all of their accepted matches and soon (working stages), be able chat with them as well. 🔮💌
+Star-Crossed is a zodiac dating app matching users based on compatibility of their sun sign. Zodiac (sun) signs are computed from a user's DOB, with further info pulled from external API data. Based on sun signs, gender, and gender preference, two algorithms facilitate matches and filter results. Signing up and signing in uses secure auth and allows a user to view all matches, a specific match’s profile, and accept or decline a match. Declining will nix the match for both parties (obviously), but accepting will generate a status of either “pending” or “accepted”, contingent on whether or not the matched user has also accepted. If a user edits their details (gender preference, for example) matches will be regenerated, but declined matches will never be re-created or re-rendered. Matches confirmed by both users can be viewed on the "ACCEPTED" page, which also opens the chat portal where a user can direct message any of their star-crossed lovers. 😉🔮💌
 
 ## Technologies Used
 
@@ -11,7 +11,7 @@ React, Redux, Ruby on Rails, Zodiacal API, HTML, CSS, JSON, Materialize React CD
 ## Getting Started
 
 ### Prerequisites
-To use, clone down this repo and open with your preferred text editor. This project uses Ruby on Rails, so you’ll need to make sure you have both installed (if you don’t, visit this link for instructions: Digital Ocean: Install Ruby and Set Up Local Environment), as well as PostgreSQL as the database resource. 
+To use, clone down this repo and open with your preferred text editor. This project uses Ruby on Rails, so you’ll need to make sure you have both installed (if you don’t, visit this link for instructions: Digital Ocean: Install Ruby and Set Up Local Environment), as well as PostgreSQL as the database resource.
 
 ### Installing
 The project gemfile specifies Ruby 2.6.0, so you may need to install that version if you don’t have it. Open terminal and in the root of the project directory run:
@@ -32,7 +32,7 @@ and jump into the console to test out that tables and relationships were establi
 
 `rails db:seed`
 
-to initialize sun signs and generate compatibilities. If the development database is running correctly, then the seed data should be successfully created and final step is to test the server. To activate it, run: 
+to initialize sun signs and generate compatibilities. If the development database is running correctly, then the seed data should be successfully created and final step is to test the server. To activate it, run:
 
 `rails s`
 
@@ -44,7 +44,7 @@ and once the terminal says it’s running, navigate to http://localhost:3000. If
 
 ## Demo Video
 
-[star-crossed.mov](https://drive.google.com/file/d/1s-mXsQ8bZujMtY53DviUvsxRgVIZOdFU/view)
+[star-crossed.mov](https://drive.google.com/file/d/1c5VZztRUjhC6q2-htKYpym5kWF0EjoaY/view?usp=sharing)
 
 ## Authors
 
