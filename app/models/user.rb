@@ -2,12 +2,11 @@ class User < ApplicationRecord
   belongs_to :sun
   has_many :matches, dependent: :destroy
   has_many :matched_users, through: :matches
-  has_many :subscriptions
-  has_many :chats, through: :subscriptions
+  has_many :user_chats
+  has_many :chats, through: :user_chats
   has_many :conversations
   validates :email, presence: true, uniqueness: true
   has_secure_password
-  # validates :password, presence: true
   validates :password, presence: {on: :create}
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -28,7 +27,6 @@ class User < ApplicationRecord
   after_update :get_sun_sign, before: :save
   after_update :update_matches, before: :save
   after_update :capitalization, before: :save
-  # after_update :get_age, before: :save
 
   def full_name
     "#{self.first_name} #{self.last_name}".scan(/\w+/).each { |x| x.capitalize! }.join(' ')
@@ -128,14 +126,6 @@ class User < ApplicationRecord
         gp = self.gender_pref.split(",").map{ |pref| pref.strip.upcase }.join(",")
         self.gender_pref = gp
       end
-      # location = self.location.split(" ").map {|word| word.capitalize}
-      # if !location[-2].include?(",")
-      #   self.location = location.join(" ")
-      # else
-      #   location[-1].upcase!
-      #   self.location = location.join(" ")
-      # end
-      # self.bio = self.bio.gsub(/([a-z])((?:[^.?!]|\.(?=[a-z]))*)/i) { $1.capitalize + $2.rstrip }
     end
 
 

@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
   include ::ActionController::Cookies
   include Knock::Authenticable
-  # protect_from_forgery with: :exception
 
 
   def secret_key
@@ -48,10 +47,6 @@ class ApplicationController < ActionController::API
     end
     decoded
   end
-
-  # def is_admin
-  #  #write this out
-  # end
 
   def authenticate_user
     jwt = cookies.signed[:jwt]

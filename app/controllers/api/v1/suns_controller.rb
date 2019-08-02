@@ -1,5 +1,4 @@
 class Api::V1::SunsController < ApplicationController
-  # before_action :requires_login, only: [:index, :show]
   before_action :authenticate_user, only: [:index, :show]
 
   def index
@@ -17,10 +16,7 @@ class Api::V1::SunsController < ApplicationController
   def create
     @sun = Sun.new(sun_params)
     if @sun.valid?
-    # @compatible_suns = [@sun.compatible_suns, @sun.inverse_compatible_suns]
       @sun.save
-    # if @sun.save
-    # render json: @sun, status: 200
   end
 
   private

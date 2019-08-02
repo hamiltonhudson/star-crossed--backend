@@ -1,6 +1,4 @@
 class Api::V1::MatchesController < ApplicationController
-  # before_action: find_match, only: [:show, :update, :declined, :destroy]
-  # before_action :requires_login
   before_action :authenticate_user
 
   def index
@@ -44,7 +42,6 @@ class Api::V1::MatchesController < ApplicationController
     render json: {
       user: UserSerializer.new(@user),
       match_status: @match.status,
-      # users: @users
     }, status: 200
   end
 
@@ -58,7 +55,6 @@ class Api::V1::MatchesController < ApplicationController
     render json: {
       user: UserSerializer.new(@user),
       match_status: @match.status,
-      # users: @users
     }, status: 200
   end
 

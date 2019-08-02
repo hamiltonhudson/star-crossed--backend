@@ -1,6 +1,6 @@
 class Chat < ApplicationRecord
   has_many :conversations
-  has_many :subscriptions
-  has_many :users, through: :subscriptions
-  
+  has_many :user_chats
+  has_many :users, through: :user_chats
+
 end

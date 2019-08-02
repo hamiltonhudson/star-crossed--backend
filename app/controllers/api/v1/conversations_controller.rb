@@ -13,7 +13,6 @@ class Api::V1::ConversationsController < ApplicationController
        ).serializable_hash
        ConversationsChannel.broadcast_to(
          @chat,
-         # conversation,
          @serialized_data
        )
        head :ok

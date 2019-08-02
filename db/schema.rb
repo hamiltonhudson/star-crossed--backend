@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_11_053629) do
+ActiveRecord::Schema.define(version: 2019_08_02_003523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "chats", force: :cascade do |t|
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "title"
   end
 
   create_table "compatibilities", force: :cascade do |t|
@@ -33,10 +33,10 @@ ActiveRecord::Schema.define(version: 2019_07_11_053629) do
 
   create_table "conversations", force: :cascade do |t|
     t.string "message"
+    t.bigint "chat_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "chat_id"
     t.index ["chat_id"], name: "index_conversations_on_chat_id"
   end
 
@@ -49,13 +49,6 @@ ActiveRecord::Schema.define(version: 2019_07_11_053629) do
     t.index ["matched_user_id"], name: "index_matches_on_matched_user_id"
     t.index ["user_id", "matched_user_id"], name: "index_matches_on_user_id_and_matched_user_id", unique: true
     t.index ["user_id"], name: "index_matches_on_user_id"
-  end
-
-  create_table "subscriptions", force: :cascade do |t|
-    t.integer "chat_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
   end
 
   create_table "suns", force: :cascade do |t|
@@ -75,6 +68,13 @@ ActiveRecord::Schema.define(version: 2019_07_11_053629) do
     t.string "bad_traits"
   end
 
+  create_table "user_chats", force: :cascade do |t|
+    t.integer "chat_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 2019_07_11_053629) do
     t.text "bio"
     t.string "photo"
     t.string "email"
-    t.string "birth_date"
     t.string "password_digest"
+    t.string "birth_date"
     t.index ["sun_id"], name: "index_users_on_sun_id"
   end
 

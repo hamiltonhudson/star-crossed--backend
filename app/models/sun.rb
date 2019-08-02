@@ -4,7 +4,6 @@ class Sun < ApplicationRecord
   has_many :compatible_suns, through: :compatibilities
   has_many :inverse_compatibilities, class_name: "Compatibility", foreign_key: "compatible_sun_id"
   has_many :inverse_compatible_suns, through: :inverse_compatibilities, source: :sun, as: :compatible_suns
-  # after_create :add_self_compatibility
   after_create :update_add_attributes, before: :save
   after_create :capitalize_attributes, before: :save
 

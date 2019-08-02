@@ -1,11 +1,8 @@
 class MatchSerializer < ActiveModel::Serializer
   attributes :id, :status, :matched_user
-  # belongs_to :user
-  # belongs_to :matched_user, :class_name => "User"
 
   def matched_user
     user = object.matched_user
-    # sun = object.matched_user.sun
     {
       id: user.id,
       first_name: user.first_name,
@@ -22,7 +19,6 @@ class MatchSerializer < ActiveModel::Serializer
       sun: user.sun,
       birth_date: user.birth_date
     }
-
   end
 
 end

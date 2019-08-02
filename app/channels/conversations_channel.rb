@@ -8,6 +8,6 @@ class ConversationsChannel < ApplicationCable::Channel
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
-    puts "listening to conversation ended"
+    puts "conversation ended"
   end
 end
