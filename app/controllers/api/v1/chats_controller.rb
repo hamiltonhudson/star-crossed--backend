@@ -6,10 +6,7 @@ class Api::V1::ChatsController < ApplicationController
     @user = User.find_by(id: authenticate_user[0]["id"])
     user_id = @user.id
     @chats = @user.chats
-    ActionCable.server.broadcast(
-      "current_user_#{params["user_id"]}",
-      @chats
-    )
+    ActionCable.server.broadcast("current_user_#{params["user_id"]}", @chats)
     render json: @chats
   end
 
